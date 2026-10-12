@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [![Open Phase 2 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adriennie/vllm-pagedattention-benchmark/blob/main/vllm_pagedattention_block_size_ablation.ipynb)
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/badge/badge.svg)](https://nbviewer.org/github/adriennie/vllm-pagedattention-benchmark/blob/main/vllm_pagedattention_block_size_ablation.ipynb)
+[![nbviewer](https://img.shields.io/badge/render-nbviewer-F37626?logo=jupyter&logoColor=white)](https://nbviewer.org/github/adriennie/vllm-pagedattention-benchmark/blob/main/vllm_pagedattention_block_size_ablation.ipynb)
 
 [**Highlights**](#-highlights) · [**Phase 1**](#-phase-1--vllm-vs-hugging-face) · [**Phase 2**](#-phase-2--block-size-ablation--hardware-profiling) · [**Reproduce**](#-reproducing-the-experiments) · [**Roadmap**](#-roadmap)
 
@@ -45,14 +45,14 @@ Autoregressive generation repeatedly attends to every token produced so far. The
 This project is grounded in Kwon et al., [*Efficient Memory Management for Large Language Model Serving with PagedAttention*](https://arxiv.org/abs/2309.06180) (SOSP 2023).
 
 ```mermaid
-flowchart LR
-    A[Variable-length prompts] --> B{Runtime}
-    B -->|Contiguous KV cache| C[Hugging Face generate]
-    B -->|Block-table KV cache| D[vLLM PagedAttention]
-    C --> E[Throughput · req/s · VRAM]
+flowchart TD
+    A["Variable-length<br/>prompts"] --> B{"Runtime"}
+    B -->|"Contiguous<br/>KV cache"| C["Hugging Face<br/>generate()"]
+    B -->|"Block-table<br/>KV cache"| D["vLLM<br/>PagedAttention"]
+    C --> E["Phase 1 metrics:<br/>throughput, req/s, VRAM"]
     D --> E
-    D --> F[Phase 2: block size 8 / 16 / 32]
-    F --> G[pynvml VRAM · p50 / p95 latency · N=3 trials]
+    D --> F["Phase 2:<br/>block size 8 / 16 / 32"]
+    F --> G["pynvml VRAM,<br/>p50 / p95 latency,<br/>N = 3 trials"]
 ```
 
 ---
