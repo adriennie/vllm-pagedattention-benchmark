@@ -87,20 +87,29 @@ Source: [`phase 2-results/final_vlm_vs_hf_benchmark.csv`](phase%202-results/fina
 
 ## 🎨 Visualizations
 
-All generated artifacts, CSV tables, and figures are stored in the [`phase 2-results`](phase%202-results/) directory.
+All generated artifacts, CSV data tables, and high-resolution figures are stored in the `phase 2-results` directory.
 
-### 1. Throughput Comparison
+### **1. Throughput Comparison**
+<div align="center">
 
-![Throughput comparison between vLLM and Hugging Face](phase%202-results/vllm_vs_hf_unified_comparison.png)
+![vLLM vs HF Unified Comparison](phase%202-results/vllm_vs_hf_unified_comparison.png)
 
-*Throughput scaling of vLLM PagedAttention vs. the Hugging Face baseline across batch sizes 1, 4, 16, and 32.*
+*Throughput scaling curves comparing vLLM PagedAttention with Hugging Face baseline generators across batch sizes [1, 4, 16, 32].*
 
-### 2. Peak VRAM Footprint Profile
+</div>
 
-![Peak VRAM profile for vLLM and Hugging Face](phase%202-results/vllm_vs_hf_vram_profile.png)
+### **2. Peak VRAM Footprint Profile**
+<div align="center">
 
-*Device-level peak VRAM captured via an asynchronous `pynvml` background thread.*
+![vLLM vs HF VRAM Profile](phase%202-results/vllm_vs_hf_vram_profile.png)
 
+*Device-level peak VRAM allocation captured via asynchronous `pynvml` background telemetry.*
+
+</div>
+
+> **Engineering Note on VRAM Profiles:** 
+> * **Hugging Face** exhibits dynamic memory scaling where allocated VRAM grows incrementally with batch size and activation depth.
+> * **vLLM** operates on a pre-allocated memory pool architecture governed by `--gpu-memory-utilization` (set to 0.75, reserving ~11.25 GB of the Tesla T4's 15 GB total VRAM at startup for model weights and the KV cache block pool). While the *static reservation pool* is fixed at initialization, actual active token block occupancy scales dynamically without memory fragmentation.
 ---
 
 ## 📂 Repository Structure
